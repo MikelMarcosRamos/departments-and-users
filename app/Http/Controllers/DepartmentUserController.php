@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Department;
 
 class DepartmentUserController extends Controller
 {
-    function create()
+    function create($departmentId)
     {
-        $departments = Department::all();
-        return view('departments.create', compact('departments'));
+        $department = Department::findOrFail($departmentId);
+        $users = User::all();
+        return view('departmentsUsers.create', compact('department', 'users'));
     }
 }
