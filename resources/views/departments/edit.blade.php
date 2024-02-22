@@ -17,7 +17,8 @@
         @else
             <div class="mt-2">
                 <form method="POST" action="{{ route('departmentsUsers.destroy', $department->id) }}"
-                    onsubmit="return confirm('Are you sure you want to detach selected user?')">
+                    onsubmit="return confirm('Are you sure you want to detach selected user?')"
+                    class="flex items-center">
                     @csrf
                     @method('DELETE')
                     <select id="user_id" name="user_id" autocomplete="user_id"
@@ -26,6 +27,9 @@
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
                         @endforeach
                     </select>
+                    <button type="submit"
+                        class="ml-2 rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">Detach</button>
+
                 </form>
             </div>
         @endif

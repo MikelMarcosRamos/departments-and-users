@@ -151,4 +151,16 @@ class DepartmentControllerEditTest extends TestCase
             ->assertDontSee('No users')
             ->assertSee($user->name);
     }
+
+    public function test_displays_detach_button_when_user_attached(): void
+    {
+        $user = User::factory()->create();
+        $this->department->users()->attach($user->id);
+
+        $response = $this->get(route('departments.edit', $this->department->id));
+
+        $response->assertStatus(200)
+            ->assertSee(route('departmentsUsers.destroy', $this->department->id))
+            ->assertSee('Detach');
+    }
 }
