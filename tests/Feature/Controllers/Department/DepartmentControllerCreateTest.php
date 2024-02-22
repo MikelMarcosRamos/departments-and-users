@@ -28,4 +28,13 @@ class DepartmentControllerCreateTest extends TestCase
             ->assertSee('Cancel')
             ->assertSee('Save');
     }
+
+    public function test_create_department_requires_name()
+    {
+        $response = $this->post(route('departments.store'), [
+            // Intentionally missing name
+        ]);
+
+        $response->assertSessionHasErrors(['name']);
+    }
 }
