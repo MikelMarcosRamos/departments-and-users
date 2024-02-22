@@ -14,4 +14,14 @@ class DepartmentControllerIndexTest extends TestCase
             ->assertSee('Departments</h2>', false)
             ->assertSee('No departments.');
     }
+
+    public function test_displays_create_department_button(): void
+    {
+        $response = $this->get(route('departments.index'));
+
+        $response->assertStatus(200)
+                 ->assertSee('Create Department')
+                 ->assertSee(route('departments.create'));    
+    }
+
 }
