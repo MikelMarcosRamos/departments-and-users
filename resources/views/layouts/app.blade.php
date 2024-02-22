@@ -25,8 +25,8 @@
         <div class="menu-container fixed top-16 left-0 w-1/5 bg-gray-100 p-4 z-10">
             <nav class="menu">
                 <ul>
-                    <li><a href="#" class="block p-2 hover:bg-gray-300">Departments</a></li>
-                    <li><a href="#" class="block p-2 hover:bg-gray-300">Users</a></li>
+                    <li><a href="{{ route('departments.index') }}" class="block p-2 hover:bg-gray-300 {{ request()->routeIs('departments.index') ? 'bg-gray-200 font-bold' : '' }}">Departments</a></li>
+                    <li><a href="{{ route('users.index') }}" class="block p-2 hover:bg-gray-300 {{ request()->routeIs('users.index') ? 'bg-gray-200 font-bold' : '' }}"">Users</a></li>
                 </ul>
             </nav>
         </div>
