@@ -51,6 +51,7 @@ class DepartmentControllerCreateTest extends TestCase
             ->assertSessionHas('message', 'Department created!');
 
         $this->get($response->getTargetUrl())
-            ->assertSee('Department created!');
+            ->assertSee('Department created!')
+            ->assertSee($department->name);
     }
 }

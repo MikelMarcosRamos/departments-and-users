@@ -24,6 +24,8 @@ class DepartmentController extends Controller
             'name' => 'required'
         ]);
 
+        Department::create($data);
+
         return redirect(route('departments.index'))
             ->with('message', 'Department created!');
     }
