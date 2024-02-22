@@ -22,6 +22,7 @@ Route::get('/departments', [DepartmentController::class, 'index'])->name('depart
 Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
 Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
 Route::get('/departments/{id}', [DepartmentController::class, 'edit'])->name('departments.edit');
+Route::post('/departments/{id}', [DepartmentController::class, 'update'])->name('departments.update');
 Route::delete('/departments/{id}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');

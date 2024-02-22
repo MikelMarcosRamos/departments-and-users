@@ -36,4 +36,14 @@ class DepartmentControllerEditTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    public function test_displays_save_and_cancel_buttons(): void
+    {
+        $response = $this->get(route('departments.edit', $this->department->id));
+
+        $response->assertSee(route('departments.index'))
+            ->assertSee('<form method="POST" action="' . route('departments.update', $this->department->id) . '"', false)
+            ->assertSee('Cancel')
+            ->assertSee('Save');
+    }
 }

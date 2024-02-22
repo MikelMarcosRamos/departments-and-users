@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <h2 class="text-4xl font-extrabold dark:text-white">Edit Department</h2>
-    <form method="POST" action="{{route('departments.store')}}" class="p-2">
+    <form method="POST" action="{{route('departments.update', $department->id)}}" class="p-2">
         @csrf
         <div class="pb-12">
             <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
