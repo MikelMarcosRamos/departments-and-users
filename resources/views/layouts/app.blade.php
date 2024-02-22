@@ -26,7 +26,7 @@
             <nav class="menu">
                 <ul>
                     <li><a href="{{ route('departments.index') }}" class="block p-2 hover:bg-gray-300 {{ request()->routeIs('departments.index') ? 'bg-gray-200 font-bold' : '' }}">Departments</a></li>
-                    <li><a href="{{ route('users.index') }}" class="block p-2 hover:bg-gray-300 {{ request()->routeIs('users.index') ? 'bg-gray-200 font-bold' : '' }}"">Users</a></li>
+                    <li><a href="{{ route('users.index') }}" class="block p-2 hover:bg-gray-300 {{ Illuminate\Support\Str::startsWith(request()->url(), route('users.index')) ? 'bg-gray-200 font-bold' : '' }}"">Users</a></li>
                 </ul>
             </nav>
         </div>
@@ -34,5 +34,8 @@
         <div class="main-content pt-16">
             @yield('content')
         </div>
+
+        <!-- Javascript -->
+        @vite('resources/js/app.js')
     </body>
 </html>

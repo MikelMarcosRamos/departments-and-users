@@ -16,7 +16,7 @@ class HomeControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_see_application_name_on_title_and_h1()
+    public function test_see_application_name_on_title_and_h1(): void
     {
         $response = $this->get(route('home'));
 
@@ -25,7 +25,7 @@ class HomeControllerTest extends TestCase
         $response->assertSee(config('app.name') . '</a></h1>', false);
     }
 
-    public function test_see_departments_and_users_links()
+    public function test_see_departments_and_users_links(): void
     {
         $response = $this->get(route('home'));
 
