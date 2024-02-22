@@ -14,5 +14,6 @@ class UserControllerTest extends TestCase
         $response = $this->get(route('users.index'));
 
         $response->assertStatus(200);
+        $response->assertSee('Users</h2>', false);
     }
 }
