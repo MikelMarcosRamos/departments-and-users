@@ -40,4 +40,17 @@ class DepartmentControllerIndexTest extends TestCase
             ->assertSee($department1->name)
             ->assertSee($department2->name);
     }
+
+    public function test_displays_edit_and_delete_buttons(): void
+    {
+        $department = Department::factory()->create();
+
+        $response = $this->get(route('departments.index'));
+
+        $response->assertSee(route('departments.edit', $department->id))
+            ->assertSee(route('departments.destroy', $department->id))
+            ->assertSee('<form method="POST" action="' . route('departments.destroy', $department->id) . '"', false)
+            ->assertSee('Edit')
+            ->assertSee('Delete');
+    }
 }

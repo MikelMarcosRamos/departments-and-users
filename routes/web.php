@@ -21,6 +21,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
 Route::get('/departments/create', [DepartmentController::class, 'create'])->name('departments.create');
 Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+Route::get('/departments/{id}', [DepartmentController::class, 'edit'])->name('departments.edit');
+Route::delete('/departments/{id}', [DepartmentController::class, 'destroy'])->name('departments.destroy');
 
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/users/create', [UserController::class, 'create'])->name('users.create');

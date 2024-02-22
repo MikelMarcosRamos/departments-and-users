@@ -61,7 +61,7 @@
                                         </span>
                                     </a>
                                     <form method="POST" action="{{ route('users.destroy', $user->id) }}"
-                                        onsubmit="return confirm('Are you sure you want to delete de user?')">
+                                        onsubmit="return confirm('Are you sure you want to delete the user?')">
                                         @csrf
                                         @method('DELETE')
 
