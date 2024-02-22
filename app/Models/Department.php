@@ -19,6 +19,11 @@ class Department extends Model
         return $this->hasMany(Department::class, 'department_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
     public function possibleParents()
     {
         return Department::where('id', '!=', $this->id)

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <h2 class="text-4xl font-extrabold dark:text-white">Edit Department</h2>
+    @include('layouts.partials._message')
     <form method="POST" action="{{ route('departments.update', $department->id) }}" class="p-2">
         @csrf
         @include('departments._form')
@@ -12,5 +13,18 @@
                 class="bg-blue-500 hover:bg-blue-700 text-white px-3 py-2 text-sm font-semibold rounded">Add User</a>
         </div>
         <p class="mt-2">No users.</p>
+        <div class="mt-2">
+            <form method="POST" action="{{ route('departmentsUsers.destroy', $department->id) }}"
+                onsubmit="return confirm('Are you sure you want to detach selected user?')">
+                @csrf
+                @method('DELETE')
+                <select id="user_id" name="user_id" autocomplete="user_id"
+                    class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    @foreach ($department->users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
     </div>
 @endsection

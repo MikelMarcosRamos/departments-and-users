@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\Department;
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -26,7 +27,7 @@ class DepartmentUserControllerCreateTest extends TestCase
         $response->assertStatus(200)
             ->assertSee('Add User')
             ->assertSee($this->department->name)
-            ->assertSee('name="user"', false);
+            ->assertSee('name="user_id"', false);
     }
     
     public function test_displays_add_and_cancel_buttons(): void
@@ -37,5 +38,31 @@ class DepartmentUserControllerCreateTest extends TestCase
             ->assertSee('<form method="POST" action="' . route('departmentsUsers.store', $this->department->id) . '"', false)
             ->assertSee('Cancel')
             ->assertSee('Add');
+    }
+
+    public function test_add_requires_user(): void
+    {
+        $response = $this->post(route('departmentsUsers.store', $this->department->id), [
+            // Intentionally missing name
+        ]);
+
+        $response->assertSessionHasErrors(['user_id']);
+    }
+
+    public function test_add_user_ok(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->post(route('departmentsUsers.store',  $this->department->id), [
+            'user_id' => $user->id,
+        ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect(route('departments.edit', $this->department->id))
+            ->assertSessionHas('message', 'User added!');
+
+        $this->get($response->getTargetUrl())
+            ->assertSee('User added!')
+            ->assertSee($user->name);
     }
 }

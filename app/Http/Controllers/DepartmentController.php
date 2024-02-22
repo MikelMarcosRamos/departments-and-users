@@ -35,7 +35,7 @@ class DepartmentController extends Controller
 
     function edit($departmentId)
     {
-        $department = Department::findOrFail($departmentId);
+        $department = Department::with('users')->findOrFail($departmentId);
         $departments = $department->possibleParents();
         return view('departments.edit', compact('department', 'departments'));
     }

@@ -36,3 +36,4 @@ Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.de
 
 Route::get('/departments/{id}/users/create', [DepartmentUserController::class, 'create'])->name('departmentsUsers.create');
 Route::post('/departments/{id}/users', [DepartmentUserController::class, 'store'])->name('departmentsUsers.store');
+Route::delete('/departments/{id}/users', [DepartmentUserController::class, 'destroy'])->name('departmentsUsers.destroy');
