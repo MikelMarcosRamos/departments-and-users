@@ -3,9 +3,13 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\Department;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DepartmentControllerIndexTest extends TestCase
 {
+    use RefreshDatabase;
+    
     public function test_visit_index_ok(): void
     {
         $response = $this->get(route('departments.index'));
@@ -24,4 +28,16 @@ class DepartmentControllerIndexTest extends TestCase
                  ->assertSee(route('departments.create'));    
     }
 
+    public function test_displays_department_names(): void
+    {
+        $department1 = Department::factory()->create();
+        $department2 = Department::factory()->create();
+
+        $response = $this->get(route('departments.index'));
+
+        $response->assertStatus(200)
+            ->assertDontSee('No departments.')
+            ->assertSee($department1->name)
+            ->assertSee($department2->name);
+    }
 }

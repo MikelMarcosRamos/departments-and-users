@@ -6,6 +6,12 @@
     </div>
     @include('layouts.partials._message')
     <div class="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-        No departments.
+        @if($departments->isEmpty())
+            No departments.
+        @else
+            @foreach ($departments as $department)
+                {{ $department->name }}
+            @endforeach
+        @endif
     </div>
 @endsection
