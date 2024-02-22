@@ -95,4 +95,22 @@ class DepartmentControllerEditTest extends TestCase
             ->assertDontSee($this->department->name . '</option>', false)
             ->assertDontSee($department2->name);
     }
+
+    public function test_edit_department_parent_ok()
+    {
+        $department = Department::factory()->create();
+
+        $response = $this->post(route('departments.update', $this->department->id), [
+            'name' => $this->department->name,
+            'department_id' => $department->id,
+        ]);
+
+        $this->department->refresh();
+
+        $response->assertStatus(302)
+            ->assertRedirect(route('departments.index'))
+            ->assertSessionHas('message', 'Department edited!');
+
+        $this->assertEquals($this->department->department_id, $department->id);
+    }
 }

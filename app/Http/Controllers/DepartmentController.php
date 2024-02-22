@@ -49,6 +49,7 @@ class DepartmentController extends Controller
         $department = Department::findOrFail($departmentId);
 
         $department->name = $data['name'];
+        $department->department_id = $data['department_id'] ?? null;
         $department->save();
 
         return redirect(route('departments.index'))
