@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -136,5 +137,18 @@ class DepartmentControllerEditTest extends TestCase
             ->assertSee('User List</h3>', false)
             ->assertSee('No users')
             ->assertSee(route('departmentsUsers.create', $this->department->id));
+    }
+
+    public function test_no_displays_no_users_if_user_attached(): void
+    {
+        $user = User::factory()->create();
+        $this->department->users()->attach($user->id);
+
+        $response = $this->get(route('departments.edit', $this->department->id));
+
+        $response->assertStatus(200)
+            ->assertSee('User List</h3>', false)
+            ->assertDontSee('No users')
+            ->assertSee($user->name);
     }
 }
