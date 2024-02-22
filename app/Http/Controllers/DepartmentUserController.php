@@ -34,4 +34,19 @@ class DepartmentUserController extends Controller
         return redirect(route('departments.edit', $departmentId))
             ->with('message', 'User added!');
     }
+
+    function destroy(Request $request, $departmentId)
+    {
+        $department = Department::findOrFail($departmentId);
+
+        $data = $request->validate([
+            'user_id' => 'required',
+        ]);
+
+        $user = User::findOrFail($data['user_id']);
+        $department->users()->detach($user->id);
+
+        return redirect(route('departments.edit', $departmentId))
+            ->with('message', 'User detached!');
+    }
 }
