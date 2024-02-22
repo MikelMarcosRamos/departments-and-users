@@ -8,6 +8,7 @@
 
         <!-- Styles -->
         @vite('resources/css/app.css')
+        @stack("styles")
     </head>
     <body class="antialiased">
         <header class="bg-gray-800 text-white w-full h-16 flex items-center justify-between fixed top-0 z-10">

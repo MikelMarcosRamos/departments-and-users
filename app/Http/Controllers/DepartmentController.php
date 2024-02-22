@@ -9,7 +9,7 @@ class DepartmentController extends Controller
 {
     function index()
     {
-        $departments = Department::all();
+        $departments = Department::with('children')->whereNull('department_id')->get();
         return view('departments.index', compact('departments'));
     }
 
