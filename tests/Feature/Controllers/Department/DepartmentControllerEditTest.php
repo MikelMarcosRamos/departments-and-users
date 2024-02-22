@@ -46,4 +46,28 @@ class DepartmentControllerEditTest extends TestCase
             ->assertSee('Cancel')
             ->assertSee('Save');
     }
+
+    public function test_create_department_requires_name(): void
+    {
+        $response = $this->post(route('departments.update', $this->department->id), [
+            // Intentionally missing name
+        ]);
+
+        $response->assertSessionHasErrors(['name']);
+    }
+
+    public function test_edit_department_name_ok()
+    {
+        $response = $this->post(route('departments.update', $this->department->id), [
+            'name' => $this->department->name . '-edited',
+        ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect(route('departments.index'))
+            ->assertSessionHas('message', 'Department edited!');
+
+        $this->get($response->getTargetUrl())
+            ->assertSee('Department edited!')
+            ->assertSee($this->department->name . '-edited');
+    }
 }
