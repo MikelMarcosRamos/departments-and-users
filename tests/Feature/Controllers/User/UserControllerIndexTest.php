@@ -47,8 +47,6 @@ class UserControllerIndexTest extends TestCase
     {
         $response = $this->get(route('users.index'));
 
-        $response = $this->get('/users');
-
         $response->assertStatus(200)
                  ->assertSee('Create User')
                  ->assertSee(route('users.create'));    
