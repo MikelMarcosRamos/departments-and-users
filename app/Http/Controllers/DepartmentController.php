@@ -32,6 +32,13 @@ class DepartmentController extends Controller
             ->with('message', 'Department created!');
     }
 
+    function edit($departmentId)
+    {
+        $department = Department::findOrFail($departmentId);
+        $departments = Department::all();
+        return view('departments.edit', compact('department', 'departments'));
+    }
+
     function destroy($departmentId)
     {
         $department = Department::findOrFail($departmentId);
