@@ -16,7 +16,8 @@ class DepartmentControllerCreateTest extends TestCase
 
         $response->assertStatus(200)
             ->assertSee('New Department</h2>', false)
-            ->assertSee('name="name"', false);
+            ->assertSee('name="name"', false)
+            ->assertSee('name="department_id"', false);
     }
     
     public function test_displays_save_and_cancel_buttons(): void
@@ -29,7 +30,7 @@ class DepartmentControllerCreateTest extends TestCase
             ->assertSee('Save');
     }
 
-    public function test_create_department_requires_name()
+    public function test_create_department_requires_name(): void
     {
         $response = $this->post(route('departments.store'), [
             // Intentionally missing name
@@ -38,7 +39,7 @@ class DepartmentControllerCreateTest extends TestCase
         $response->assertSessionHasErrors(['name']);
     }
 
-    public function test_create_department_ok()
+    public function test_create_department_ok(): void
     {
         $department = Department::factory()->make();
 
@@ -54,4 +55,32 @@ class DepartmentControllerCreateTest extends TestCase
             ->assertSee('Department created!')
             ->assertSee($department->name);
     }
+
+    public function test_displays_deparment_name_for_parent(): void
+    {
+        $department = Department::factory()->create();
+
+        $response = $this->get(route('departments.create'));
+
+        $response->assertStatus(200)
+            ->assertSee($department->name);
+    }
+/*
+    public function test_department_can_have_a_parent(): void
+    {
+        $parent = Department::factory()->create();
+        $department = Department::factory()->make();
+
+        $response = $this->post(route('departments.store'), [
+            'name' => $department->name,
+            'department_id' => $parent->id,
+        ]);
+
+        $department->refresh();
+
+        $this->assertEquals($parent->id, $department->department_id);
+
+        $response->assertStatus(302);
+    }
+    */
 }

@@ -15,13 +15,15 @@ class DepartmentController extends Controller
 
     function create()
     {
-        return view('departments.create');
+        $departments = Department::all();
+        return view('departments.create', compact('departments'));
     }
 
     function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'department_id' => 'nullable'
         ]);
 
         Department::create($data);
