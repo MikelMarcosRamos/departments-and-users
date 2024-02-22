@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Controllers\Department;
 
 use Tests\TestCase;
-use App\Models\User;
+use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class DepartmentControllerCreateTest extends TestCase
@@ -36,5 +36,21 @@ class DepartmentControllerCreateTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['name']);
+    }
+
+    public function test_create_department_ok()
+    {
+        $department = Department::factory()->make();
+
+        $response = $this->post(route('departments.store'), [
+            'name' => $department->name,
+        ]);
+
+        $response->assertStatus(302)
+            ->assertRedirect(route('departments.index'))
+            ->assertSessionHas('message', 'Department created!');
+
+        $this->get($response->getTargetUrl())
+            ->assertSee('Department created!');
     }
 }

@@ -21,5 +21,8 @@ class DepartmentController extends Controller
         $data = $request->validate([
             'name' => 'required'
         ]);
+
+        return redirect(route('departments.index'))
+            ->with('message', 'Department created!');
     }
 }
