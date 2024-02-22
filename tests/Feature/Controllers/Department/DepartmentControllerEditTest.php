@@ -96,7 +96,7 @@ class DepartmentControllerEditTest extends TestCase
             ->assertDontSee($department2->name);
     }
 
-    public function test_edit_department_parent_ok()
+    public function test_edit_department_parent_ok(): void
     {
         $department = Department::factory()->create();
 
@@ -114,7 +114,7 @@ class DepartmentControllerEditTest extends TestCase
         $this->assertEquals($this->department->department_id, $department->id);
     }
 
-    public function test_edit_department_parent_with_descendant_ko()
+    public function test_edit_department_parent_with_descendant_ko(): void
     {
         $department = Department::factory()->create([
             'department_id' => $this->department->id,
@@ -126,5 +126,15 @@ class DepartmentControllerEditTest extends TestCase
         ]);
 
         $response->assertSessionHasErrors(['department_id']);
+    }
+
+    public function test_displays_no_users_and_add_user_button(): void
+    {
+        $response = $this->get(route('departments.edit', $this->department->id));
+
+        $response->assertStatus(200)
+            ->assertSee('User List</h3>', false)
+            ->assertSee('No users')
+            ->assertSee(route('departmentsUsers.create', $this->department->id));
     }
 }
