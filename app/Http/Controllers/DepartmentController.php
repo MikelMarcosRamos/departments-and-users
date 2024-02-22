@@ -8,4 +8,9 @@ class DepartmentController extends Controller
     {
         return view('departments.index');
     }
+
+    function create()
+    {
+        return view('departments.create');
+    }
 }
