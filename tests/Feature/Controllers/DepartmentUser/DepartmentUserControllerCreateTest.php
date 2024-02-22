@@ -29,6 +29,13 @@ class DepartmentUserControllerCreateTest extends TestCase
             ->assertSee('name="user"', false);
     }
     
-    
+    public function test_displays_add_and_cancel_buttons(): void
+    {
+        $response = $this->get(route('departmentsUsers.create', $this->department->id));
 
+        $response->assertSee(route('departments.edit', $this->department->id))
+            ->assertSee('<form method="POST" action="' . route('departmentsUsers.store', $this->department->id) . '"', false)
+            ->assertSee('Cancel')
+            ->assertSee('Add');
+    }
 }
