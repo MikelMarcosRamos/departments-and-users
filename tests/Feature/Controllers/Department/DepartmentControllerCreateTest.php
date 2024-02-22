@@ -65,7 +65,7 @@ class DepartmentControllerCreateTest extends TestCase
         $response->assertStatus(200)
             ->assertSee($department->name);
     }
-/*
+
     public function test_department_can_have_a_parent(): void
     {
         $parent = Department::factory()->create();
@@ -76,11 +76,11 @@ class DepartmentControllerCreateTest extends TestCase
             'department_id' => $parent->id,
         ]);
 
-        $department->refresh();
+        $createdDeparment = Department::whereName($department->name)->firstOrFail();
 
-        $this->assertEquals($parent->id, $department->department_id);
+        $this->assertEquals($parent->id, $createdDeparment->department_id);
 
         $response->assertStatus(302);
     }
-    */
+
 }
