@@ -70,4 +70,29 @@ class DepartmentControllerEditTest extends TestCase
             ->assertSee('Department edited!')
             ->assertSee($this->department->name . '-edited');
     }
+
+    public function test_displays_deparment_name_for_parent(): void
+    {
+        $department = Department::factory()->create();
+
+        $response = $this->get(route('departments.edit', $this->department->id));
+
+        $response->assertStatus(200)
+            ->assertSee($department->name);
+    }
+
+    public function test_dont_displays_current_deparment_name_or_children_for_parent(): void
+    {
+        $department = Department::factory()->create();
+        $department2 = Department::factory()->create([
+            'department_id' => $this->department->id,
+        ]);
+
+        $response = $this->get(route('departments.edit', $this->department->id));
+
+        $response->assertStatus(200)
+            ->assertSee($department->name)
+            ->assertDontSee($this->department->name . '</option>', false)
+            ->assertDontSee($department2->name);
+    }
 }

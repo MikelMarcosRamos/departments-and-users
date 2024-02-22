@@ -22,4 +22,23 @@ class DepartmentTest extends TestCase
 
         $this->assertNull($department2->department_id);
     }
+
+    public function test_get_possible_parents(): void
+    {
+        $department1 = Department::factory()->create();
+        $department2 = Department::factory()->create([
+            'department_id' => $department1->id
+        ]);
+        $department3= Department::factory()->create([
+            'department_id' => $department2->id
+        ]);
+        $department4= Department::factory()->create([
+            'department_id' => $department3->id
+        ]);
+
+        $this->assertEquals(3, $department4->possibleParents()->count());
+        $this->assertEquals(2, $department3->possibleParents()->count());
+        $this->assertEquals(1, $department2->possibleParents()->count());
+        $this->assertEquals(0, $department1->possibleParents()->count());
+    }
 }
