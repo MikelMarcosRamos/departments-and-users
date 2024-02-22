@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Rules\ParentCanNotBeDescendant;
 
 class DepartmentController extends Controller
 {
@@ -41,12 +42,15 @@ class DepartmentController extends Controller
 
     function update(Request $request, $departmentId)
     {
+        $department = Department::findOrFail($departmentId);
+
         $data = $request->validate([
             'name' => 'required',
-            'department_id' => 'nullable'
+            'department_id' => [
+                'nullable',
+                new ParentCanNotBeDescendant($department)
+            ]
         ]);
-
-        $department = Department::findOrFail($departmentId);
 
         $department->name = $data['name'];
         $department->department_id = $data['department_id'] ?? null;

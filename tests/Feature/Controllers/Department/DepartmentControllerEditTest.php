@@ -113,4 +113,18 @@ class DepartmentControllerEditTest extends TestCase
 
         $this->assertEquals($this->department->department_id, $department->id);
     }
+
+    public function test_edit_department_parent_with_descendant_ko()
+    {
+        $department = Department::factory()->create([
+            'department_id' => $this->department->id,
+        ]);
+
+        $response = $this->post(route('departments.update', $this->department->id), [
+            'name' => $this->department->name,
+            'department_id' => $department->id,
+        ]);
+
+        $response->assertSessionHasErrors(['department_id']);
+    }
 }
