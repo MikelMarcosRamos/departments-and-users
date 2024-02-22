@@ -1,0 +1,20 @@
+@media (min-width: 769px) {
+    .menu-container {
+        height: calc(100vh - 4rem); /* Restamos la altura del header */
+    }
+
+    .main-content {
+        padding-left: 20%; /* Ajusta el padding a la izquierda para dejar espacio al menú */
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-container {
+        display: none;
+        width: 100%;
+    }
+
+    :checked + .menu-container {
+        display: block;
+    }
+}
