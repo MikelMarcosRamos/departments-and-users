@@ -22,6 +22,8 @@ class DepartmentUserControllerCreateTest extends TestCase
 
     public function test_visit_ok(): void
     {
+        $user = User::factory()->create();
+
         $response = $this->get(route('departmentsUsers.create', $this->department->id));
 
         $response->assertStatus(200)
@@ -32,6 +34,8 @@ class DepartmentUserControllerCreateTest extends TestCase
     
     public function test_displays_add_and_cancel_buttons(): void
     {
+        $user = User::factory()->create();
+
         $response = $this->get(route('departmentsUsers.create', $this->department->id));
 
         $response->assertSee(route('departments.edit', $this->department->id))
@@ -64,5 +68,26 @@ class DepartmentUserControllerCreateTest extends TestCase
         $this->get($response->getTargetUrl())
             ->assertSee('User added!')
             ->assertSee($user->name);
+    }
+
+    public function test_no_users_return(): void
+    {
+        $response = $this->get(route('departmentsUsers.create', $this->department->id));
+
+        $response->assertStatus(302)
+            ->assertRedirect(route('departments.edit', $this->department->id))
+            ->assertSessionHas('message', 'No users to add!');
+    }
+
+    public function test_no_more_users_return(): void
+    {
+        $user = User::factory()->create();
+        $this->department->users()->attach($user->id);
+
+        $response = $this->get(route('departmentsUsers.create', $this->department->id));
+
+        $response->assertStatus(302)
+            ->assertRedirect(route('departments.edit', $this->department->id))
+            ->assertSessionHas('message', 'No users to add!');
     }
 }

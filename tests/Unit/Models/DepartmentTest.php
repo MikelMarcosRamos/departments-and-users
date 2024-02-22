@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Models\User;
 use App\Models\Department;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -40,5 +41,17 @@ class DepartmentTest extends TestCase
         $this->assertEquals(2, $department3->possibleParents()->count());
         $this->assertEquals(1, $department2->possibleParents()->count());
         $this->assertEquals(0, $department1->possibleParents()->count());
+    }
+
+    public function test_get_not_attached_users(): void
+    {
+        $department = Department::factory()->create();
+        $user1 = User::factory()->create();
+        $user2 = User::factory()->create();
+
+        $department->users()->attach($user1->id);
+
+        $this->assertEquals(1, $department->notAttachedUsers()->count());
+        $this->assertEquals($user2->id, $department->notAttachedUsers()[0]->id);
     }
 }

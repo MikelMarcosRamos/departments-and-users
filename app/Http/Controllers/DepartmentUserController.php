@@ -11,7 +11,12 @@ class DepartmentUserController extends Controller
     function create($departmentId)
     {
         $department = Department::findOrFail($departmentId);
-        $users = User::all();
+        $users = $department->notAttachedUsers();
+
+        if ($users->count() === 0) {
+            return redirect(route('departments.edit', $departmentId))
+                ->with('message', 'No users to add!');
+        }
         return view('departmentsUsers.create', compact('department', 'users'));
     }
 

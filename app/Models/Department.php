@@ -42,4 +42,12 @@ class Department extends Model
 
         return array_unique(array_merge($childrenIds, $descendantIds));
     }
+
+    public function notAttachedUsers()
+    {
+        $departmentId = $this->id;
+        return User::whereDoesntHave('departments', function ($query) use ($departmentId) {
+            $query->where('department_user.department_id', $departmentId);
+        })->get();
+    }
 }
